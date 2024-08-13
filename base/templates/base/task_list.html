@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    {% if request.user.is_authenticated %}
+        <p>{{ request.user }}</p>
+        <button id="logout-button">Logout</button>
+        <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: none;">
+            {% csrf_token %}
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Log in</a>
+    {% endif %}
+
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function() {
+            document.getElementById('logout-form').submit();
+        });
+    </script>
+
+
+
+    
+    <hr>
+
+    <a href="{% url 'task-create' %}">Add task</a>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{task.title}}</th>
+            <td><a href="{% url 'task' task.id %}">View</a></th>
+            <td><a href="{% url 'task-update' task.id %}">Edit</a></th>
+            <td><a href="{% url 'task-delete' task.id %}">Delete</a></th>
+        </td>
+        {% empty %}
+        <h3>No items in list</h3>
+        {% endfor %}
+    </table>
+</body>
+</html>
