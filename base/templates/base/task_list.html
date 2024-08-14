@@ -1,50 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base/base.html' %}
 
-    {% if request.user.is_authenticated %}
-        <p>{{ request.user }}</p>
-        <button id="logout-button">Logout</button>
-        <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: none;">
+{% block content %}
+<div class="header-bar">
+    <div>
+        <h1>hello {{request.user| title }}</h1>
+        <h3 style="margin: 0;">You have <i>{{ count }}</i> incomplete task{{ count | pluralize:"s" }}</h3>
+
+
+        {% if request.user.is_authenticated %}
+        <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
             {% csrf_token %}
+            <button type="submit" style="border: none; background: none; color: #4b5156; font-family: 'Raleway', sans-serif; font-size: inherit; cursor: pointer; text-decoration: underline;" class="btn-logout">
+                Logout
+            </button>
         </form>
-    {% else %}
+        
+        
+        {% else %}
         <a href="{% url 'login' %}">Log in</a>
-    {% endif %}
+        {% endif %}
 
-    <script>
-        document.getElementById('logout-button').addEventListener('click', function() {
-            document.getElementById('logout-form').submit();
-        });
-    </script>
+    </div>
+</div>
 
 
+<script>
+document.getElementById('logout-button').addEventListener('click', function() {
+    document.getElementById('logout-form').submit();
+});
+</script>
 
+
+
+<!--<a href="{% url 'task-create' %}">Add task</a>
+<form method="GET">
+<input type="text" name="search-area" value="{{ search_input }}" placeholder="Search tasks...">
+<input type="submit" value="Search">
+</form> -->
+
+<div id="search-add-wrapper">
     
-    <hr>
+    <form method="GET" style="margin-top: 0px; display: flex;">
+        <input type="text" name="search-area" value="{{ search_input }}" placeholder="Search tasks...">
+        <input class="button-search" type="submit" value="Search">
+    </form>
+    <a href="{% url 'task-create' %}" id="add-link">&#x2b;</a>
+</div>
 
-    <a href="{% url 'task-create' %}">Add task</a>
-    <table>
-        <tr>
-            <th>Item</th>
-            <th></th>
-            <th></th>
-        </tr>
-        {% for task in tasks %}
-        <tr>
-            <td>{{task.title}}</th>
-            <td><a href="{% url 'task' task.id %}">View</a></th>
-            <td><a href="{% url 'task-update' task.id %}">Edit</a></th>
-            <td><a href="{% url 'task-delete' task.id %}">Delete</a></th>
-        </td>
-        {% empty %}
-        <h3>No items in list</h3>
-        {% endfor %}
-    </table>
-</body>
-</html>
+
+
+<div class="task-items-wrapper">
+    {% for task in tasks %}
+        <div class="task-wrapper">
+            {% if task.complete %}
+                <div class="task-title">
+                    <div class="task-complete-icon"></div>
+                    <i><s><a href="{% url 'task-update' task.id %}">{{task}}</a></s></i>
+                </div>
+                <a href="{% url 'task-delete' task.id %}" class="delete-link">&#215;</a>
+
+            {% else %}    
+                <div class="task-title">
+                    <div class="task-incomplete-icon"></div>
+                    <a href="{% url 'task-update' task.id %}">{{task}}</a>
+                </div>
+            <a href="{% url 'task-delete' task.id %}" class="delete-link">&#215;</a>
+
+            {% endif %}
+            
+
+        </div>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+
+</div>
+
+</table>
+
+
+
+{% endblock %}

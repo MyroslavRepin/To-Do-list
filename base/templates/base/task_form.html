@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Task form</h1>
-    <a href="{% url 'tasks' %}">Go back</a>
+{% extends 'base/base.html' %}
+{% block content %}
+
+<div class="header-bar">
+    <a href="{% url 'tasks' %}">&#8592;</a>
+</div>
+
+
+<div class="card-body">
+    <h3>Task form</h3>
     <form method="POST" action="">
         {% csrf_token %}        
         {{form.as_p}}
-        <input type="submit" value="Submit">
+        <input class="button-form" type="submit" value="Submit">
     </form>
-</body>
-</html>
+</div>
+
+
+
+
+{% endblock %}

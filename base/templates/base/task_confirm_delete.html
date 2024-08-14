@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <a href="{% url 'tasks' %}">Back</a>
+{% extends 'base/base.html' %}
+{% block content %}
+
+<div class="header-bar">
+    <a href="{% url 'tasks' %}">&#8592;</a>
+</div>
+
+<div class="card-body">
     <form action="" method="POST">
         {% csrf_token %}
         <p>Are yiu sure to delete this task? "{{task}}"</p>
-        <input type="submit" value="Delete">
-    </form>
-</body>
-</html> 
+        <input class="button-form" type="submit" value="Delete">
+    </form>    
+</div>
+
+
+
+{% endblock %}
