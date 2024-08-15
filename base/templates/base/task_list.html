@@ -4,8 +4,11 @@
 <div class="header-bar">
     <div>
         <h1>hello {{request.user| title }}</h1>
-        <h3 style="margin: 0;">You have <i>{{ count }}</i> incomplete task{{ count | pluralize:"s" }}</h3>
-
+        {% if count == 0 %}
+            <h3 style="margin: 0;">No tasks to do</h3>
+        {% else %}
+            <h3 style="margin: 0;">You have <i>{{ count }}</i> incomplete task{{ count|pluralize:"s" }}</h3>
+        {% endif %}
 
         {% if request.user.is_authenticated %}
         <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
@@ -71,7 +74,7 @@ document.getElementById('logout-button').addEventListener('click', function() {
 
         </div>
     {% empty %}
-    <h3>No items in list</h3>
+    <p class="no-items-message">No items in list</p>
     {% endfor %}
 
 </div>
