@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/Users/veniaminrepin/Documents/myroslav_repin/Python projects/DJANGO/venv/bin/python3.12" "$0" "$@"
-' '''
+#!/Users/veniaminrepin/Documents/myroslav_repin/projects/DJANGO/TODO_LIST/venv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys
